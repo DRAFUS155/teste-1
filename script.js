@@ -1,5 +1,5 @@
 // TODO: Replace with your actual DeepAI API key
-const DEEP_AI_API_KEY = 'YOUR_API_KEY_HERE';
+const DEEP_AI_API_KEY = '84171b78-ec5b-434d-b315-d8260544fdf4';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Get references to HTML elements
