@@ -1,5 +1,5 @@
-// TODO: Replace with your actual DeepAI API key
-const DEEP_AI_API_KEY = '84171b78-ec5b-434d-b315-d8260544fdf4';
+// Usando Pollinations.ai - API gratuita sem necessidade de chave
+// Alternativa: Hugging Face Inference API (também gratuita)
 
 document.addEventListener('DOMContentLoaded', () => {
     // Get references to HTML elements
@@ -24,28 +24,70 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isLoading) {
             imageContainer.innerHTML = '<span>Gerando imagem, por favor aguarde...</span>';
         } else if (imageUrl) {
-            imageContainer.innerHTML = `<img src="${imageUrl}" alt="${altText}">`;
+            imageContainer.innerHTML = `<img src="${imageUrl}" alt="${altText}" style="max-width: 100%; height: auto;">`;
         } else if (message) {
             imageContainer.innerHTML = `<span>${message}</span>`;
         } else {
-            // Default fallback if no specific state is set (e.g. after an error without a custom message)
             imageContainer.innerHTML = '<span>Não foi possível exibir a imagem ou nenhuma imagem selecionada.</span>';
         }
     }
 
-    // Set initial message in the image container
-    // The default HTML already has "Nenhuma imagem gerada ainda." which is fine.
-    // If we wanted JS to control it: displayInImageContainer({ message: "Nenhuma imagem gerada ainda." });
+    // Função para gerar imagem usando Pollinations.ai (gratuita)
+    async function generateImageWithPollinations(prompt) {
+        try {
+            // Pollinations.ai permite gerar imagens via URL simples
+            const encodedPrompt = encodeURIComponent(prompt);
+            const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&seed=${Math.floor(Math.random() * 1000000)}`;
+            
+            // Verificar se a imagem foi gerada corretamente
+            const response = await fetch(imageUrl);
+            if (response.ok) {
+                return imageUrl;
+            } else {
+                throw new Error('Erro ao gerar imagem com Pollinations');
+            }
+        } catch (error) {
+            console.error('Erro Pollinations:', error);
+            return null;
+        }
+    }
 
+    // Função alternativa usando Hugging Face (gratuita, mas com rate limit)
+    async function generateImageWithHuggingFace(prompt) {
+        try {
+            const response = await fetch(
+                "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5",
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    method: "POST",
+                    body: JSON.stringify({
+                        inputs: prompt,
+                        parameters: {
+                            negative_prompt: "blurry, low quality, distorted",
+                            num_inference_steps: 20,
+                            guidance_scale: 7.5
+                        }
+                    }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+
+            const blob = await response.blob();
+            return URL.createObjectURL(blob);
+        } catch (error) {
+            console.error('Erro Hugging Face:', error);
+            return null;
+        }
+    }
 
     // Event listener for the 'Gerar Imagem' button
     if (generateImageButton) {
         generateImageButton.addEventListener('click', async () => {
-            if (DEEP_AI_API_KEY === 'YOUR_API_KEY_HERE') {
-                alert('Por favor, configure sua chave de API DeepAI em script.js');
-                return;
-            }
-
             generateImageButton.disabled = true;
             displayInImageContainer({ isLoading: true });
 
@@ -61,56 +103,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     promptText += ` ${personagem}`;
                 }
                 if (dialogo) {
-                    promptText += ` Personagem falando: "${dialogo}"`;
+                    promptText += ` Character speaking: "${dialogo}"`;
                 }
                 if (pensamento) {
-                    promptText += ` Pensamento do personagem: "${pensamento}"`;
+                    promptText += ` Character thinking: "${pensamento}"`;
                 }
-                promptText += ", desenho detalhado, alta qualidade";
 
-                const apiUrl = 'https://api.deepai.org/api/text2img';
-                const headers = {
-                    'api-key': DEEP_AI_API_KEY,
-                    'Content-Type': 'application/json'
-                };
-                let bodyParams = {
-                    text: promptText,
-                    grid_size: "1", // Ensure a single image output
-                };
-
+                // Adicionar estilo baseado na seleção
                 if (estilo === "Gamon Sakurai") {
-                    bodyParams.image_generator_version = "genius";
-                    bodyParams.genius_preference = "anime";
-                    bodyParams.text += ", no estilo mangá de Gamon Sakurai";
-                } else if (estilo === "Fotorrealista") { // Updated to match Portuguese value in HTML
-                    bodyParams.image_generator_version = "genius";
-                    bodyParams.genius_preference = "photography";
-                    bodyParams.text += ", fotorealista";
-                }
-
-                console.log("Enviando para DeepAI. Prompt:", bodyParams.text);
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify(bodyParams)
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error("Erro da API DeepAI:", response.status, errorText);
-                    throw new Error(`Erro da API (${response.status}): ${errorText}`);
-                }
-
-                const data = await response.json();
-                console.log("Resposta da API DeepAI:", data);
-
-                if (data.output_url) {
-                    displayInImageContainer({ imageUrl: data.output_url, altText: "Imagem Gerada pela API" });
+                    promptText += ", manga style, anime art, detailed drawing, black and white manga";
+                } else if (estilo === "Fotorrealista") {
+                    promptText += ", photorealistic, detailed, high quality, realistic";
                 } else {
-                    console.error("`output_url` não encontrado na resposta da API.", data);
-                    displayInImageContainer({ message: "Erro ao gerar imagem: `output_url` não foi retornado." });
-                    alert("Erro ao gerar imagem: `output_url` não encontrado na resposta da API. Verifique o console para detalhes.");
+                    promptText += ", detailed artwork, high quality";
+                }
+
+                console.log("Gerando imagem com prompt:", promptText);
+
+                // Tentar primeiro com Pollinations (mais confiável)
+                let imageUrl = await generateImageWithPollinations(promptText);
+                
+                // Se falhar, tentar com Hugging Face
+                if (!imageUrl) {
+                    console.log("Tentando com Hugging Face...");
+                    imageUrl = await generateImageWithHuggingFace(promptText);
+                }
+
+                if (imageUrl) {
+                    displayInImageContainer({ imageUrl: imageUrl, altText: "Imagem Gerada pela API" });
+                } else {
+                    displayInImageContainer({ message: "Erro ao gerar imagem. Tente novamente em alguns minutos." });
+                    alert("Não foi possível gerar a imagem. As APIs gratuitas podem ter limitações. Tente novamente.");
                 }
 
             } catch (error) {
@@ -145,4 +168,23 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error("Element with ID 'uploadImage' not found.");
     }
+
+    // Função para testar conectividade das APIs
+    async function testAPIs() {
+        console.log("Testando APIs disponíveis...");
+        
+        // Teste simples do Pollinations
+        try {
+            const testUrl = "https://image.pollinations.ai/prompt/test?width=100&height=100";
+            const response = await fetch(testUrl);
+            if (response.ok) {
+                console.log("✅ Pollinations.ai está funcionando");
+            }
+        } catch (error) {
+            console.log("❌ Pollinations.ai não está disponível");
+        }
+    }
+
+    // Testar APIs na inicialização
+    testAPIs();
 });
