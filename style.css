@@ -1,0 +1,138 @@
+/* General Body and Container Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding-top: 20px; /* Adjusted for potential fixed navbar later */
+    padding-bottom: 20px;
+}
+
+.container {
+    max-width: 800px; /* Existing max-width */
+    margin: 0 auto; /* Center the container */
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+h1 {
+    color: #2c3e50;
+    text-align: center; /* Existing alignment */
+    margin-bottom: 1.5em; /* Existing margin */
+}
+
+label {
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: .5rem; /* Default Bootstrap margin */
+}
+
+/* Form Elements */
+.form-control,
+textarea,
+select {
+    border-radius: 5px;
+    border: 1px solid #ced4da; /* Bootstrap default */
+    padding: 10px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+textarea.form-control {
+    min-height: 80px;
+    resize: vertical; /* Allow vertical resize only */
+}
+
+.form-control:focus,
+textarea:focus,
+select:focus {
+    border-color: #80bdff; /* Bootstrap focus color */
+    box-shadow: 0 0 0 .2rem rgba(0,123,255,.25); /* Bootstrap focus shadow */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Bootstrap primary */
+    border-color: #007bff; /* Bootstrap primary */
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color .15s ease-in-out, border-color .15s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-primary:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.form-control-file {
+    border: 1px solid #ced4da;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* Image Display Area */
+#imageContainer { /* This is the ID from index.html */
+    width: 100%;
+    min-height: 300px; /* Minimum height to maintain space */
+    max-height: 512px; /* Max height to prevent overly large images */
+    border: 2px dashed #adb5bd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px; /* Existing margin-bottom is 20px, this is for top */
+    margin-bottom: 20px; /* Existing margin */
+    background-color: #e9ecef;
+    border-radius: 5px;
+    padding: 15px; /* Padding inside the container */
+    overflow: hidden; /* Ensure image does not break container bounds */
+    text-align: center; /* For messages */
+}
+
+#imageContainer img { /* Styling for the image itself if it's a direct child or descendant */
+    max-width: 100%;
+    max-height: 480px; /* Max height for the image, considering padding */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove extra space below image */
+    border-radius: 4px; /* Slight rounding of image corners */
+}
+
+#imageContainer span { /* Styling for loading/message text */
+    font-size: 1rem;
+    color: #495057;
+}
+
+/* Layout - Form Group Margins (Bootstrap already handles this well with mb-3) */
+.form-group {
+    margin-bottom: 1.5rem; /* Increase spacing slightly if desired */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #imageContainer {
+        min-height: 200px;
+    }
+    h1 {
+        font-size: 1.5rem;
+    }
+    .btn-primary {
+        font-size: 0.9rem;
+    }
+}

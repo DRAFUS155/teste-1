@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Imagens Estilo Mangá/Anime</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Gerador de Imagens Estilo Mangá/Anime</h1>
+
+        <div class="form-group">
+            <label for="dialogueText">Texto do Diálogo:</label>
+            <textarea id="dialogueText" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="thoughtText">Texto do Pensamento:</label>
+            <textarea id="thoughtText" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="scenarioDescription">Descrição do Cenário:</label>
+            <textarea id="scenarioDescription" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="characterAppearance">Aparência e Vestimenta do Personagem:</label>
+            <textarea id="characterAppearance" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="artStyle">Estilo de Arte:</label>
+            <select id="artStyle" class="form-control">
+                <option>Gamon Sakurai</option>
+                <option>Fotorrealista</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Imagem Gerada:</label>
+            <div id="imageContainer"> <!-- Removed generated-image-container class, will be styled by ID -->
+                <!-- A imagem gerada será exibida aqui -->
+                <span>Nenhuma imagem gerada ainda.</span>
+            </div>
+        </div>
+
+        <button id="generateImageButton" class="btn btn-primary btn-block mb-3">Gerar Imagem</button>
+
+        <div class="form-group">
+            <label for="uploadImage">Substituir por Imagem Local:</label>
+            <input type="file" id="uploadImage" class="form-control-file">
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html>
