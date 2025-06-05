@@ -33,6 +33,29 @@ Este projeto está em fase inicial de desenvolvimento. Se você tem interesse em
 *   Banco de Dados: (A definir, dependendo das necessidades de persistência)
 *   IA: APIs de modelos de linguagem grandes (LLMs) para geração de texto e interações.
 
+## Considerações sobre API da IA e Custos
+
+Este jogo é projetado para interagir com uma API de Inteligência Artificial externa (como GPT-4 da OpenAI ou similar) para gerar as narrativas e respostas do Mestre de Jogo. A comunicação com esta API deve ser feita através de um **serviço de backend ou proxy seguro**, e não diretamente do frontend.
+
+**Pontos Importantes:**
+
+*   **Proteção da Chave de API (API Key):**
+    *   Sua chave de API da plataforma de IA (OpenAI, etc.) é um segredo e **NUNCA** deve ser exposta no código do frontend (HTML, CSS, JavaScript) ou em repositórios públicos.
+    *   O backend/proxy é responsável por armazenar de forma segura a chave da API e fazer as chamadas para o serviço de IA. O frontend se comunica com seu backend, que então repassa a requisição para a IA.
+
+*   **Custos de Uso da API:**
+    *   O uso de APIs de IA generativa, como as da OpenAI, geralmente incorre em custos. Estes custos são tipicamente baseados no número de "tokens" processados, tanto os enviados na requisição (prompt, histórico da conversa) quanto os recebidos na resposta (narrativa gerada pela IA).
+    *   É crucial estar ciente da estrutura de preços da API de IA que você escolher utilizar.
+    *   Monitore regularmente seu uso e orçamento na plataforma da IA para evitar surpresas.
+
+*   **Configuração do Desenvolvedor:**
+    *   Para executar este projeto com uma IA real, você precisará:
+        1.  Obter uma chave de API da plataforma de IA de sua escolha.
+        2.  Configurar e implantar um serviço de backend/proxy que use sua chave de API para se comunicar com a IA.
+        3.  Atualizar a constante `API_ENDPOINT_IA` no arquivo `script.js` para apontar para o seu backend.
+
+Este projeto, em seu estado atual no repositório, utiliza uma **simulação de IA no frontend** para fins de desenvolvimento e demonstração, não realizando chamadas reais a APIs externas e, portanto, não incorrendo em custos diretos de API. A integração com um backend real é um passo adicional a ser implementado pelo desenvolvedor.
+
 ---
 
 *Este README substitui o conteúdo anterior referente ao "Gerador de Imagens Estilo Mangá/Anime", pois o escopo do projeto foi alterado.*
