@@ -1,67 +1,38 @@
-# Gerador de Imagens Estilo Mangá/Anime
+# RPG de Texto Interativo com IA
 
 ## Descrição
 
-Esta aplicação web permite aos usuários gerar imagens com base em descrições textuais, com opções para emular estilos artísticos específicos, como o de Gamon Sakurai, ou gerar imagens fotorealistas. Os usuários também podem enviar suas próprias imagens para substituir as geradas. O projeto utiliza a API Text-to-Image da DeepAI para a geração de imagens.
+Este projeto visa criar um jogo de RPG de texto (Text-Based RPG) totalmente em português do Brasil, onde os jogadores podem mergulhar em narrativas dinâmicas e influenciar o curso da história com suas decisões. A experiência será enriquecida com mecânicas clássicas de RPG, como sistema de níveis para personagens, combate estratégico inspirado em RPGs de mesa (como D&D ou Pathfinder), e a possibilidade de interação com um mundo rico e responsivo.
 
-## Features
+Estamos explorando ativamente a integração de Inteligência Artificial (IA) para potencializar a geração de narrativas, tornando cada aventura única, e para criar NPCs (personagens não-jogáveis) com interações mais profundas e realistas.
 
-- Geração de imagens a partir de texto.
-- Seleção de estilos de arte (Gamon Sakurai, Photorealistic).
-- Campos de entrada para diálogo, pensamento, descrição de cenário e aparência do personagem.
-- Visualização da imagem gerada.
-- Opção para substituir a imagem gerada por uma imagem local.
-- Interface responsiva e estilizada com Bootstrap e CSS customizado.
+Além da experiência single-player, um dos objetivos centrais é o desenvolvimento de um modo multiplayer, permitindo que amigos se juntem na mesma aventura, colaborem em desafios e compartilhem a criação de suas histórias.
 
-## Como Usar
+## Funcionalidades Planejadas (Em Desenvolvimento)
 
-1.  **Preencha os Campos de Texto:**
-    *   **Texto do Diálogo:** Insira o diálogo que o personagem deve estar falando.
-    *   **Texto do Pensamento:** Insira o pensamento interno do personagem.
-    *   **Descrição do Cenário:** Descreva o ambiente ou a cena onde a imagem se passa.
-    *   **Aparência e Vestimenta do Personagem:** Detalhe como o personagem deve se parecer e o que deve estar vestindo.
+*   **Criação de Personagem Detalhada:** Permita aos jogadores moldar seus avatares com classes, atributos e habilidades diversas.
+*   **Narrativa Ramificada:** Decisões que realmente impactam a história e levam a múltiplos finais e arcos narrativos.
+*   **Sistema de Combate Tático:** Combate por turnos com base em atributos, perícias e rolagem de dados virtuais.
+*   **Progressão de Personagem:** Ganho de experiência, subida de níveis e aquisição de novas habilidades e equipamentos.
+*   **Interação com NPCs:** Diálogos complexos e NPCs que reagem às ações e à reputação do jogador.
+*   **Mundo Persistente (para multiplayer):** Um mundo que evolui e é compartilhado entre os jogadores.
+*   **Integração com IA:**
+    *   Geração procedural de missões, descrições e eventos.
+    *   NPCs com comportamento e diálogos mais dinâmicos e menos previsíveis.
+    *   Um "Mestre de Jogo" (Game Master) virtual que se adapta ao estilo dos jogadores.
+*   **Suporte Multiplayer Cooperativo:** Jogue com amigos, compartilhando a mesma jornada.
 
-2.  **Selecione o Estilo de Arte:**
-    *   Use o menu dropdown "Estilo de Arte" para escolher entre "Gamon Sakurai" ou "Photorealistic".
+## Como Contribuir
 
-3.  **Gerar Imagem:**
-    *   Clique no botão "Gerar Imagem". A imagem aparecerá na área abaixo do botão.
-    *   **Nota:** A primeira geração pode demorar um pouco enquanto a API processa o pedido.
+Este projeto está em fase inicial de desenvolvimento. Se você tem interesse em contribuir, seja com ideias, código, narrativas ou testes, fique de olho nas futuras atualizações sobre como o processo de contribuição será estruturado.
 
-4.  **Substituir por Imagem Local:**
-    *   Clique no botão "Escolher arquivo" (ou similar, dependendo do seu navegador) abaixo da área da imagem.
-    *   Selecione um arquivo de imagem do seu computador. A imagem escolhida substituirá a imagem na área de visualização.
+## Tecnologias (Planejadas)
 
-## Configuração da Chave de API (API Key Configuration)
+*   Frontend: HTML, CSS, JavaScript (inicialmente, podendo evoluir para frameworks como React/Vue)
+*   Backend: Node.js com Express (ou outra tecnologia similar para gerenciar estado do jogo e multiplayer)
+*   Banco de Dados: (A definir, dependendo das necessidades de persistência)
+*   IA: APIs de modelos de linguagem grandes (LLMs) para geração de texto e interações.
 
-Para que a funcionalidade de geração de imagens pela API funcione, você **PRECISA** configurar sua própria chave de API do DeepAI.
+---
 
-1.  Obtenha uma chave de API gratuita no site [DeepAI.org](https://deepai.org/). Você precisará se registrar.
-2.  Abra o arquivo `script.js` no seu editor de código.
-3.  Localize a linha:
-    ```javascript
-    const DEEP_AI_API_KEY = 'YOUR_API_KEY_HERE';
-    ```
-4.  Substitua `'YOUR_API_KEY_HERE'` pela sua chave de API real, mantendo as aspas. Por exemplo:
-    ```javascript
-    const DEEP_AI_API_KEY = 'abcdef12-3456-7890-abcd-ef1234567890';
-    ```
-
-### Aviso de Segurança
-
-**NÃO FAÇA COMMIT da sua chave de API diretamente para um repositório PÚBLICO no GitHub se você não quiser que ela seja exposta.** Para projetos públicos, o ideal é usar um proxy de backend para proteger sua chave, onde a chave de API fica armazenada no servidor e não no código client-side.
-
-Este projeto é puramente client-side para simplicidade de demonstração e facilidade de deployment no GitHub Pages. **Se o seu repositório for público, qualquer pessoa poderá ver sua chave de API se ela estiver no arquivo `script.js` e você fizer o commit dela.** Considere manter seu repositório privado se estiver incluindo sua chave diretamente.
-
-## Deployment no GitHub Pages
-
-1.  Faça o commit e push de todos os arquivos do projeto (`index.html`, `style.css`, `script.js`, `README.md`) para o seu repositório no GitHub.
-2.  No seu repositório GitHub, vá em "Settings" (Configurações) no menu superior.
-3.  Na barra lateral esquerda, clique em "Pages" (Páginas) sob a seção "Code and automation" (Código e automação).
-4.  Em "Build and deployment" (Construção e implantação), na seção "Source" (Fonte), selecione "Deploy from a branch" (Implantar a partir de um branch).
-5.  **Branch:** Selecione o branch que contém seus arquivos (geralmente `main` ou `master`).
-6.  **Folder:** Selecione `/ (root)`.
-7.  Clique em "Save" (Salvar).
-8.  Aguarde alguns minutos para o site ser construído e publicado. O URL do seu site publicado (por exemplo, `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`) será exibido na mesma página. Pode ser necessário atualizar a página para ver o link.
-
-Lembre-se que, devido à configuração da chave de API ser client-side, a funcionalidade de geração de imagem só funcionará no site publicado se a chave de API tiver sido corretamente inserida no `script.js` *antes* do commit e push.
+*Este README substitui o conteúdo anterior referente ao "Gerador de Imagens Estilo Mangá/Anime", pois o escopo do projeto foi alterado.*

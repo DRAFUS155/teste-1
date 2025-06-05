@@ -3,601 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Mangá</title>
+    <title>RPG de Texto Interativo</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 30px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-        
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .form-group label {
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 8px;
-        }
-        
-        .form-control, .form-control:focus {
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-        
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border: none;
-            border-radius: 25px;
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn-primary:disabled {
-            background: #ccc;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .image-container {
-            min-height: 300px;
-            border: 3px dashed #ddd;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-            transition: all 0.3s ease;
-            flex-direction: column;
-            padding: 20px;
-        }
-        
-        .image-container:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
-        
-        .image-container img {
-            max-width: 100%;
-            max-height: 500px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .upload-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 2px solid #e9ecef;
-        }
-        
-        .custom-file-input:focus ~ .custom-file-label {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-        
-        .custom-file-label {
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
-        }
-        
-        .loading-text {
-            color: #667eea;
-            font-weight: 600;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #667eea, transparent);
-            margin: 30px 0;
-        }
-        
-        .tips-box {
-            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 5px solid #667eea;
-        }
-        
-        .tips-box h5 {
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .tips-box ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-        
-        .tips-box li {
-            margin-bottom: 8px;
-            color: #555;
-        }
-
-        .status-indicator {
-            padding: 8px 15px;
-            border-radius: 15px;
-            font-size: 14px;
-            font-weight: 600;
-            margin: 5px 0;
-            display: block;
-        }
-
-        .status-success { background: #d4edda; color: #155724; }
-        .status-error { background: #f8d7da; color: #721c24; }
-        .status-warning { background: #fff3cd; color: #856404; }
-        .status-info { background: #d1ecf1; color: #0c5460; }
-
-        .canvas-container {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .generated-canvas {
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            max-width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .api-selector {
-            margin: 15px 0;
-        }
-
-        .api-option {
-            margin: 5px 0;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .api-option:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
-
-        .api-option.selected {
-            border-color: #667eea;
-            background: #667eea;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🎨 Gerador de Mangá</h1>
-            <p class="lead">Crie imagens para seus mangás com diferentes métodos!</p>
-        </div>
+        <header class="text-center my-4">
+            <h1>RPG de Texto Interativo</h1>
+        </header>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="dialogueText">💬 Diálogo do Personagem:</label>
-                    <textarea id="dialogueText" class="form-control" rows="3" placeholder="Digite o que o personagem está dizendo..."></textarea>
+        <main>
+            <div id="jogo-container">
+                <div id="historia" class="mb-3 p-3 border rounded bg-light" style="min-height: 200px; max-height: 400px; overflow-y: auto;">
+                    <!-- A história do jogo será exibida aqui -->
+                    <p>Carregando história...</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="thoughtText">💭 Pensamento do Personagem:</label>
-                    <textarea id="thoughtText" class="form-control" rows="3" placeholder="Digite o que o personagem está pensando..."></textarea>
+                <div id="opcoes" class="mb-3">
+                    <!-- As opções do jogador serão exibidas aqui como botões -->
                 </div>
 
-                <div class="form-group">
-                    <label for="scenarioDescription">🏞️ Descrição do Cenário:</label>
-                    <textarea id="scenarioDescription" class="form-control" rows="4" placeholder="Descreva o ambiente, local, atmosfera..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="characterAppearance">👤 Aparência do Personagem:</label>
-                    <textarea id="characterAppearance" class="form-control" rows="3" placeholder="Descreva a aparência, roupas, expressão..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="artStyle">🎨 Estilo de Arte:</label>
-                    <select id="artStyle" class="form-control">
-                        <option value="manga">Mangá/Anime</option>
-                        <option value="realistic">Fotorrealista</option>
-                        <option value="artistic">Padrão (Artístico)</option>
-                    </select>
-                </div>
-
-                <div class="api-selector">
-                    <label>🔧 Método de Geração:</label>
-                    <div class="api-option selected" data-method="canvas">
-                        <strong>🎨 Canvas Drawing</strong> - Desenha no navegador (sempre funciona)
-                    </div>
-                    <div class="api-option" data-method="pollinations">
-                        <strong>🌐 Pollinations AI</strong> - API externa (pode ter bloqueios)
-                    </div>
-                    <div class="api-option" data-method="placeholder">
-                        <strong>📝 Placeholder</strong> - Imagem de texto (backup)
-                    </div>
-                </div>
-
-                <button id="generateImageButton" class="btn btn-primary btn-block">
-                    🚀 Gerar Imagem
-                </button>
-
-                <div id="statusContainer"></div>
-
-                <div class="section-divider"></div>
-
-                <div class="upload-section">
-                    <h5>📁 Ou carregar imagem local:</h5>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="uploadImage" accept="image/*">
-                        <label class="custom-file-label" for="uploadImage">Escolher arquivo...</label>
+                <div id="entrada-jogador-container" class="mb-3">
+                    <textarea id="input-jogador" class="form-control" rows="3" placeholder="Descreva sua ação ou digite seu comando..."></textarea>
+                    <div id="botoes-acao-container" class="mt-2 d-flex justify-content-start flex-wrap">
+                        <button id="enviar-acao" class="btn btn-primary mr-2 mb-2" style="flex-basis: calc(50% - 0.5rem);">Enviar Ação</button>
+                        <button id="salvar-jogo-button" class="btn btn-success mr-2 mb-2" style="flex-basis: calc(50% - 0.5rem);">Salvar Jogo</button>
+                        <button id="carregar-jogo-button" class="btn btn-info mr-2 mb-2" style="flex-basis: calc(50% - 0.5rem);">Carregar Jogo</button>
+                        <!-- Adicionar mais botões aqui se necessário, ajustando flex-basis -->
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>🖼️ Resultado:</label>
-                    <div id="imageContainer" class="image-container">
-                        <span style="color: #999; text-align: center;">
-                            Preencha os campos e clique em "Gerar Imagem" para ver o resultado aqui!
-                        </span>
-                    </div>
-                </div>
-
-                <div class="tips-box">
-                    <h5>💡 Dicas para melhores resultados:</h5>
-                    <ul>
-                        <li><strong>Canvas Drawing:</strong> Sempre funciona, cria desenhos simples</li>
-                        <li><strong>Pollinations AI:</strong> Imagens de alta qualidade, mas pode ser bloqueada</li>
-                        <li><strong>Placeholder:</strong> Backup confiável com texto</li>
-                        <li>Seja específico nas descrições</li>
-                        <li>Use termos em inglês quando possível</li>
-                    </ul>
+            <div id="status-personagem-container" class="mt-4 p-3 border rounded bg-light">
+                <h4>Status do Personagem</h4>
+                <div id="status-personagem">
+                    <!-- Informações do personagem (nome, nível, HP, etc.) serão exibidas aqui -->
+                    <p>Nome: <span id="nome-jogador">Aventureiro</span></p>
+                    <p>Nível: <span id="nivel-jogador">1</span></p>
+                    <p>XP: <span id="xp-jogador">0</span> / <span id="xp-proximo-nivel-jogador">100</span></p>
+                    <hr style="border-top: 1px solid #555;">
+                    <p>HP: <span id="hp-jogador">100</span>/<span id="hp-max-jogador">100</span></p>
+                    <p>MP: <span id="mp-jogador">50</span>/<span id="mp-max-jogador">50</span></p>
+                    <hr style="border-top: 1px solid #555;">
+                    <p>Força: <span id="forca-jogador">10</span></p>
+                    <p>Destreza: <span id="destreza-jogador">10</span></p>
+                    <p>Inteligência: <span id="inteligencia-jogador">10</span></p>
+                    <p>Carisma: <span id="carisma-jogador">10</span></p>
+                    <hr style="border-top: 1px solid #555;">
+                    <p>Ouro: <span id="ouro-jogador">10</span></p>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <footer class="text-center mt-5">
+            <p>&copy; 2023-2024 RPG de Texto Interativo. Inspirado pela paixão por contar histórias.</p>
+        </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const elements = {
-                dialogueText: document.getElementById('dialogueText'),
-                thoughtText: document.getElementById('thoughtText'),
-                scenarioDescription: document.getElementById('scenarioDescription'),
-                characterAppearance: document.getElementById('characterAppearance'),
-                artStyle: document.getElementById('artStyle'),
-                generateButton: document.getElementById('generateImageButton'),
-                imageContainer: document.getElementById('imageContainer'),
-                uploadImage: document.getElementById('uploadImage'),
-                statusContainer: document.getElementById('statusContainer')
-            };
-
-            let selectedMethod = 'canvas';
-
-            // Seletor de método
-            document.querySelectorAll('.api-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    document.querySelectorAll('.api-option').forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedMethod = option.dataset.method;
-                    addStatus(`Método selecionado: ${option.textContent.split(' - ')[0]}`, 'info');
-                });
-            });
-
-            function addStatus(message, type = 'info') {
-                const statusDiv = document.createElement('div');
-                statusDiv.className = `status-indicator status-${type}`;
-                statusDiv.textContent = message;
-                elements.statusContainer.appendChild(statusDiv);
-                
-                setTimeout(() => {
-                    if (statusDiv.parentNode) {
-                        statusDiv.remove();
-                    }
-                }, 5000);
-            }
-
-            function displayInImageContainer(content) {
-                elements.imageContainer.innerHTML = content;
-            }
-
-            // Método Canvas - Desenha direto no navegador
-            function generateCanvasImage(prompt) {
-                return new Promise((resolve) => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 768;
-                    canvas.height = 768;
-                    canvas.className = 'generated-canvas';
-                    const ctx = canvas.getContext('2d');
-
-                    // Fundo gradiente
-                    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-                    gradient.addColorStop(0, '#f0f4ff');
-                    gradient.addColorStop(1, '#e8f2ff');
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                    // Título
-                    ctx.fillStyle = '#333';
-                    ctx.font = 'bold 28px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('🎨 Imagem Gerada', canvas.width / 2, 60);
-
-                    // Elementos baseados no prompt
-                    const words = prompt.split(' ').slice(0, 8);
-                    let y = 120;
-                    
-                    ctx.font = '20px Arial';
-                    ctx.fillStyle = '#555';
-                    
-                    // Desenhar elementos do prompt
-                    words.forEach((word, index) => {
-                        if (word.length > 2) {
-                            ctx.fillText(`• ${word}`, canvas.width / 2, y);
-                            y += 40;
-                        }
-                    });
-
-                    // Desenhar formas representativas
-                    ctx.strokeStyle = '#667eea';
-                    ctx.lineWidth = 3;
-                    
-                    // Círculo para personagem
-                    ctx.beginPath();
-                    ctx.arc(200, 300, 80, 0, 2 * Math.PI);
-                    ctx.stroke();
-                    ctx.fillStyle = 'rgba(102, 126, 234, 0.1)';
-                    ctx.fill();
-
-                    // Retângulo para cenário
-                    ctx.strokeRect(400, 250, 200, 100);
-                    ctx.fillStyle = 'rgba(118, 75, 162, 0.1)';
-                    ctx.fillRect(400, 250, 200, 100);
-
-                    // Balão de fala
-                    if (prompt.includes('speaking') || prompt.includes('dialogue')) {
-                        ctx.beginPath();
-                        ctx.arc(500, 180, 60, 0, 2 * Math.PI);
-                        ctx.stroke();
-                        ctx.fillStyle = 'white';
-                        ctx.fill();
-                        
-                        ctx.fillStyle = '#333';
-                        ctx.font = '16px Arial';
-                        ctx.fillText('💬', 500, 185);
-                    }
-
-                    // Nuvem de pensamento
-                    if (prompt.includes('thinking') || prompt.includes('thought')) {
-                        ctx.beginPath();
-                        ctx.arc(300, 180, 40, 0, 2 * Math.PI);
-                        ctx.stroke();
-                        ctx.fillStyle = 'white';
-                        ctx.fill();
-                        
-                        ctx.fillStyle = '#333';
-                        ctx.font = '16px Arial';
-                        ctx.fillText('💭', 300, 185);
-                    }
-
-                    // Rodapé
-                    ctx.fillStyle = '#999';
-                    ctx.font = '14px Arial';
-                    ctx.fillText('Gerado por Canvas Drawing', canvas.width / 2, canvas.height - 30);
-                    ctx.fillText(new Date().toLocaleString(), canvas.width / 2, canvas.height - 10);
-
-                    resolve(canvas);
-                });
-            }
-
-            // Método Pollinations
-            async function generatePollinationsImage(prompt) {
-                try {
-                    const encodedPrompt = encodeURIComponent(prompt);
-                    const seed = Math.floor(Math.random() * 1000000);
-                    const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=768&height=768&seed=${seed}&model=flux&nologo=true`;
-                    
-                    // Criar uma nova imagem e testar se carrega
-                    return new Promise((resolve, reject) => {
-                        const img = new Image();
-                        img.crossOrigin = 'anonymous';
-                        img.onload = () => resolve(img);
-                        img.onerror = () => reject(new Error('Erro ao carregar da Pollinations'));
-                        img.src = imageUrl;
-                        
-                        // Timeout de 10 segundos
-                        setTimeout(() => reject(new Error('Timeout na Pollinations')), 10000);
-                    });
-                } catch (error) {
-                    throw error;
-                }
-            }
-
-            // Método Placeholder
-            function generatePlaceholderImage(prompt) {
-                return new Promise((resolve) => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 768;
-                    canvas.height = 768;
-                    canvas.className = 'generated-canvas';
-                    const ctx = canvas.getContext('2d');
-
-                    // Fundo colorido
-                    ctx.fillStyle = '#667eea';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                    // Texto principal
-                    ctx.fillStyle = 'white';
-                    ctx.font = 'bold 32px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('🎨 Mangá Gerado', canvas.width / 2, 100);
-
-                    // Quebrar o prompt em linhas
-                    const words = prompt.split(' ');
-                    const lines = [];
-                    let currentLine = '';
-                    
-                    words.forEach(word => {
-                        if (currentLine.length + word.length < 30) {
-                            currentLine += (currentLine ? ' ' : '') + word;
-                        } else {
-                            lines.push(currentLine);
-                            currentLine = word;
-                        }
-                    });
-                    if (currentLine) lines.push(currentLine);
-
-                    // Desenhar linhas do prompt
-                    ctx.font = '24px Arial';
-                    lines.slice(0, 10).forEach((line, index) => {
-                        ctx.fillText(line, canvas.width / 2, 200 + (index * 40));
-                    });
-
-                    // Decoração
-                    ctx.strokeStyle = 'white';
-                    ctx.lineWidth = 4;
-                    ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
-
-                    resolve(canvas);
-                });
-            }
-
-            // Event listener principal
-            elements.generateButton.addEventListener('click', async () => {
-                elements.generateButton.disabled = true;
-                displayInImageContainer('<span class="loading-text">🎨 Gerando imagem, aguarde...</span>');
-                
-                try {
-                    // Coletar dados
-                    const dialogo = elements.dialogueText.value.trim();
-                    const pensamento = elements.thoughtText.value.trim();
-                    const cenario = elements.scenarioDescription.value.trim();
-                    const personagem = elements.characterAppearance.value.trim();
-                    const estilo = elements.artStyle.value;
-
-                    // Construir prompt
-                    let promptText = '';
-                    if (cenario) promptText += cenario;
-                    if (personagem) promptText += (promptText ? ', ' : '') + personagem;
-                    if (dialogo) promptText += (promptText ? ', ' : '') + `speaking: "${dialogo}"`;
-                    if (pensamento) promptText += (promptText ? ', ' : '') + `thinking: "${pensamento}"`;
-
-                    switch(estilo) {
-                        case 'manga':
-                            promptText += ', manga style, anime art';
-                            break;
-                        case 'realistic':
-                            promptText += ', photorealistic, detailed';
-                            break;
-                        case 'artistic':
-                            promptText += ', digital artwork, artistic';
-                            break;
-                    }
-
-                    if (!promptText.trim()) {
-                        promptText = 'manga character, anime style';
-                    }
-
-                    addStatus(`Gerando com método: ${selectedMethod}`, 'info');
-
-                    let result;
-                    switch(selectedMethod) {
-                        case 'canvas':
-                            result = await generateCanvasImage(promptText);
-                            addStatus('Imagem gerada com Canvas!', 'success');
-                            break;
-                        case 'pollinations':
-                            result = await generatePollinationsImage(promptText);
-                            addStatus('Imagem gerada com Pollinations AI!', 'success');
-                            break;
-                        case 'placeholder':
-                            result = await generatePlaceholderImage(promptText);
-                            addStatus('Imagem placeholder gerada!', 'warning');
-                            break;
-                    }
-
-                    if (result) {
-                        if (result.tagName === 'CANVAS') {
-                            displayInImageContainer(result.outerHTML);
-                        } else {
-                            displayInImageContainer(`<img src="${result.src}" alt="Imagem Gerada" style="max-width: 100%; height: auto;">`);
-                        }
-                    }
-
-                } catch (error) {
-                    addStatus(`Erro: ${error.message}`, 'error');
-                    displayInImageContainer(`<span style="color: #dc3545;">❌ ${error.message}</span>`);
-                } finally {
-                    elements.generateButton.disabled = false;
-                }
-            });
-
-            // Upload de arquivo
-            elements.uploadImage.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        displayInImageContainer(`<img src="${e.target.result}" alt="Imagem Carregada" style="max-width: 100%; height: auto;">`);
-                        addStatus('Arquivo carregado com sucesso!', 'success');
-                    };
-                    reader.onerror = () => {
-                        addStatus('Erro ao ler arquivo', 'error');
-                    };
-                    reader.readAsDataURL(file);
-                    
-                    const label = document.querySelector('label[for="uploadImage"]');
-                    if (label) label.textContent = file.name;
-                }
-            });
-
-            addStatus('Sistema carregado - 3 métodos disponíveis!', 'success');
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
