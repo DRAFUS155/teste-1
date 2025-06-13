@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Combate RPG</title>
+    <link rel="stylesheet" href="combat_style.css">
+</head>
+<body>
+    <div id="setup-inimigos">
+        <h3>Configurar Inimigos</h3>
+        <div>
+            <label for="selectModeloInimigo">Escolha o tipo de inimigo:</label>
+            <select id="selectModeloInimigo">
+                <!-- Opções serão populadas por JavaScript -->
+            </select>
+        </div>
+        <div>
+            <label for="inputNivelInimigo">Nível do Inimigo:</label>
+            <input type="number" id="inputNivelInimigo" value="1" min="1">
+        </div>
+        <div>
+            <label for="inputNomeInimigo">Nome Específico (opcional):</label>
+            <input type="text" id="inputNomeInimigo" placeholder="Deixe em branco para nome padrão">
+        </div>
+        <button id="botaoAdicionarInimigo">Adicionar Inimigo ao Combate</button>
+
+        <h4>Inimigos no Combate:</h4>
+        <ul id="listaInimigosCombate">
+            <!-- Inimigos adicionados aparecerão aqui -->
+        </ul>
+        <button id="botaoIniciarCombate" style="margin-top: 15px;">Iniciar Combate!</button>
+    </div>
+    <hr>
+
+    <div id="info-jogador">
+        <h4>Informações do Jogador</h4>
+        <p><strong>Nome:</strong> <span id="jogadorNome">--</span></p>
+        <p><strong>PV:</strong> <span id="jogadorPV">--/--</span></p>
+        <p><strong>PM:</strong> <span id="jogadorPM">--/--</span></p>
+        <p><strong>Buffs:</strong> <span id="jogadorBuffs">Nenhum</span></p>
+        <p><strong>Debuffs:</strong> <span id="jogadorDebuffs">Nenhum</span></p>
+    </div>
+
+    <div id="info-inimigos">
+        <h4>Inimigos</h4>
+        <div id="containerListaInimigos">
+            <!-- Informações dos inimigos serão populadas aqui -->
+        </div>
+    </div>
+
+    <div id="log-combate">Log de Combate Aqui</div>
+
+    <div id="controles-jogador">
+        <h4>Ações do Jogador</h4>
+        <div id="acoesDisponiveis">
+            <!-- Botões de ação e habilidades aqui -->
+        </div>
+        <div>
+            <label for="selectAlvo">Escolha o Alvo:</label>
+            <select id="selectAlvo">
+                <!-- Alvos serão populados aqui -->
+            </select>
+        </div>
+        <button id="botaoConfirmarAcao" disabled>Confirmar Ação</button>
+    </div>
+
+    <script src="combat.js"></script>
+</body>
+</html>

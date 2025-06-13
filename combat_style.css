@@ -1,0 +1,16 @@
+/* Estilos para o Simulador de Combate */
+body { font-family: sans-serif; margin: 10px; background-color: #f0f0f0; }
+#info-jogador, #info-inimigos, #setup-inimigos, #controles-jogador, #log-combate {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+#log-combate { max-height: 200px; overflow-y: auto; }
+#log-combate p { margin: 5px 0; border-bottom: 1px dotted #eee; padding-bottom: 5px; font-size:0.9em; }
+.inimigo-info { border: 1px solid #eee; padding: 10px; margin-bottom: 10px; border-radius: 3px; }
+.inimigo-info.derrotado { background-color: #ffe0e0; opacity: 0.7; }
+#acoesDisponiveis button { margin: 5px; padding: 8px 12px; cursor: pointer; }
+#acoesDisponiveis button:disabled { cursor: not-allowed; opacity: 0.6; }
+#selectAlvo, #inputNivelInimigo, #selectModeloInimigo, #inputNomeInimigo { padding: 5px; margin-bottom:10px; }
